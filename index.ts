@@ -1,8 +1,11 @@
+//import { parseData, calculateData } from './exerciseCalculator';
 import { calculateBmi } from './bmi';
-import * as express from 'express';
+import express from 'express';
+import {parseData, calculateData } from './exerciseCalculator';
 const app = express();
+app.use(express.json())
 
-app.get('/hello', (req, res) => {
+app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
 });
 
@@ -15,12 +18,26 @@ app.get('/bmi', (req, res) => {
   }
   else {
     const response = calculateBmi(Number(req.query.height), Number(req.query.weight));
-    res.send(response)
+    res.send(response);
   }
+});
+
+app.post('/exercise', (req, res) => {
+  const ipdaily=req.body.daily_exercises;
+  const iptarget=req.body.target;
+  try{  
+    const {hours, target} = parseData(ipdaily, iptarget);
+    const resp = calculateData(hours, target);
+    res.send(resp)
+  }
+  catch(e) {
+    res.status(404).send({error: e.message})
+  }
+  
 });
 
 const PORT = 3003;
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`)
-})
+app.listen(PORT, ()  => {
+  console.log(`Listening on port ${PORT}`);
+});

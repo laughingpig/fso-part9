@@ -6,7 +6,7 @@ interface outputBmi {
 
 export const calculateBmi = (height: number, weight: number): outputBmi => {
   const calc = weight / (height*height/10000);
-  let message:string;
+  let message = '';
   if (calc < 18.55) {
     message =  'Underweight';
   } else
@@ -27,5 +27,5 @@ export const calculateBmi = (height: number, weight: number): outputBmi => {
     height: height,
     weight: weight,
     bmi: message
-  }
-}
+  };
+};

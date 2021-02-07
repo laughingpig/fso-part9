@@ -13,36 +13,37 @@ interface InputData {
   target: number
 }
 
-const parseData = (args: Array<string>) : InputData => {
-  if (args.length < 4) throw new Error('Not enough arguments')
-  const target = args[args.length-1]
-  const hours = args.slice(2, args.length-1).map(num => Number(num))
-  const allNumbers = hours.every(element => !isNaN(element))
-  if(!isNaN(Number(target)) && allNumbers) {
+export const parseData = (hours: Array<any>, target: any) : InputData => {
+  const hours1 = hours.map(num => Number(num));
+  const allNum = hours1.every((elem:any) => !isNaN(Number(elem)));
+  if(!target || !hours1) {
+    throw new Error('missing parameters');
+  } else
+  if(!isNaN(Number(target)) && allNum) {
     return {
-      hours: hours,
+      hours: hours1,
       target: Number(target)
-    }
+    };
   }
-  else {
-    throw new Error ('All data should be numbers')
+  else{
+    throw new Error('malformed parameters');
   }
-}
+};
 
-const calculateData = (hours: Array<number>, target: number) : ExerciseCalc => {
-  const training = hours.filter(hour => hour > 0).length
-  const average = hours.reduce((sum, hour) => (sum+hour))/hours.length
-  let rating: number, ratingDescription: string
+export const calculateData = (hours: Array<number>, target: number) : ExerciseCalc => {
+  const training = hours.filter(hour => hour > 0).length;
+  const average = hours.reduce((sum, hour) => (sum+hour))/hours.length;
+  let rating: number, ratingDescription: string;
   if (average < (target/2)) {
     rating = 1,
-    ratingDescription = 'Bad'
+    ratingDescription = 'Bad';
   } else 
   if (average >= (target/2) && average < target) {
     rating = 2,
-    ratingDescription = 'Average'
+    ratingDescription = 'Average';
   } else {
     rating = 3,
-    ratingDescription = 'Good work'    
+    ratingDescription = 'Good work';  
   }
   return {
     periodLength: hours.length,
@@ -52,13 +53,5 @@ const calculateData = (hours: Array<number>, target: number) : ExerciseCalc => {
     ratingDescription: ratingDescription,
     target: target,
     average: average
-  }
-}
-
-try {
-  const { hours, target } = parseData(process.argv);
-  console.log(hours, target)
-  console.log(calculateData(hours, target));
-} catch (e) {
-  console.log('Error, something bad happened, message: ', e.message);
-}
+  };
+};
