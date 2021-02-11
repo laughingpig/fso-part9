@@ -1,0 +1,4 @@
+"eslint.workingDirectories": [
+  { "directory": "../patientor/backend", "changeProcessCWD": true },
+  { "directory": "../patientor/frontend", "changeProcessCWD": true }
+]

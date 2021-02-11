@@ -13,8 +13,10 @@ interface InputData {
   target: number
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseData = (hours: Array<any>, target: any) : InputData => {
   const hours1 = hours.map(num => Number(num));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const allNum = hours1.every((elem:any) => !isNaN(Number(elem)));
   if(!target || !hours1) {
     throw new Error('missing parameters');
