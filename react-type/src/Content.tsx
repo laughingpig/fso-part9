@@ -1,23 +1,13 @@
 import React from 'react';
+import {CoursePart} from "./types";
+import Part from "./Part";
 
-type Props = {
-  courseParts: {name: string, exerciseCount: number}[]
-}
-
-const Content : React.FC<Props> = ({courseParts}: Props) => {
-  const cont = courseParts.map(coursePart => {
-    return (
-      <p key={coursePart.name}>
-        {coursePart.name} {coursePart.exerciseCount}
-      </p>
-    );
+const Content : React.FC<{courseParts: CoursePart[]}> = ({courseParts}) => {
+  const res = courseParts.map(part => {
+    return <Part key={part.name} part={part} />
   });
 
-  return (
-    <>
-      {cont}
-    </>
-  )
-};
+  return <>{res}</>
+}
 
 export default Content;
